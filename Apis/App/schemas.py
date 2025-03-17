@@ -1,6 +1,7 @@
-from pyclbr import Class
+from typing import Optional
 from pydantic import BaseModel, EmailStr,Field
 from datetime import datetime
+from typing import Optional
 class PostBase(BaseModel):
     title:str
     content:str
@@ -23,3 +24,9 @@ class UserResponse(BaseModel):
 class loginuser(BaseModel):
     Email:EmailStr
     password:str
+class token(BaseModel):
+    token:str
+    token_type:str
+
+class token_data(BaseModel):
+    id:Optional[int]=None

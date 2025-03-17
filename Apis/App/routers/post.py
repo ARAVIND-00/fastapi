@@ -1,12 +1,12 @@
-from fastapi import FastAPI,Response,status,HTTPException,APIRouter
+from fastapi import Depends, FastAPI,Response,status,HTTPException,APIRouter
 from ..database import SessionDep
-from .. import models,schemas 
+from .. import models,schemas ,oauth
 from sqlmodel import select
 
 router=APIRouter(prefix="/posts",tags=["posts"])
 
 @router.get("/",response_model=list[schemas.PostResponse])
-async def root(db:SessionDep):
+async def root(db:SessionDep,current_user:int=Depends(oauth.get_current_user)):
 
     # cursor.execute("SELECT * FROM posts")
     # post_data=cursor.fetchall()
@@ -16,10 +16,11 @@ async def root(db:SessionDep):
 
 
 @router.post("/",status_code=status.HTTP_201_CREATED,response_model=schemas.PostResponse)
-def createpost(post:schemas.create_post,db:SessionDep) :
+def createpost(post:schemas.create_post,db:SessionDep,current_user:int=Depends(oauth.get_current_user)) :
         # cursor.execute("INSERT INTO posts (title,content,published) VALUES (%s, %s, %s)  RETURNING * ", (post.title,post.content,post.published))
         # post_data=cursor.fetchone()
         # conn.commit()
+        print(current_user.Email)
         New_data=models.POST(**post.model_dump())
         db.add(New_data)
         db.commit()
@@ -27,7 +28,7 @@ def createpost(post:schemas.create_post,db:SessionDep) :
         return New_data
 
 @router.get("/{post_id}",response_model=schemas.PostResponse)
-def get_post(post_id:int,db:SessionDep) :
+def get_post(post_id:int,db:SessionDep,current_user:int=Depends(oauth.get_current_user)) :
     # post=find_id(post_id)
     # cursor.execute("SELECT * FROM posts where id =%s" ,(str(post_id)),)
     # post=cursor.fetchone()
@@ -38,7 +39,7 @@ def get_post(post_id:int,db:SessionDep) :
     return post_id_data
 
 @router.delete("/{post_id}",status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(post_id:int,db:SessionDep):
+def delete_post(post_id:int,db:SessionDep,current_user:int=Depends(oauth.get_current_user)):
     # cursor.execute("DELETE FROM posts where id =%s RETURNING *", str(post_id))
 
     # delete_post=cursor.fetchone()
@@ -56,7 +57,7 @@ def delete_post(post_id:int,db:SessionDep):
         raise HTTPException (status.HTTP_404_NOT_FOUND,detail=f"{post_id} not found")
 
 @router.put("/{post_id}",response_model=schemas.PostResponse)
-def update_post(post_id:int,Updated_post:schemas.create_post,db:SessionDep):
+def update_post(post_id:int,Updated_post:schemas.create_post,db:SessionDep,current_user:int=Depends(oauth.get_current_user)):
 
     
             # cursor.execute("UPDATE posts set title =%s where id = %s RETURNING *",(post.title,post.content,str(post_id)))

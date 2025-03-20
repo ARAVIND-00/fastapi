@@ -1,6 +1,6 @@
-from datetime import datetime,timezone
+from datetime import datetime
 from typing import Optional
-from sqlmodel import TIMESTAMP, DateTime, Field, SQLModel,Column,text 
+from sqlmodel import TIMESTAMP, Field, SQLModel,Column,text,Relationship
 from pydantic import EmailStr
 
 
@@ -15,6 +15,8 @@ class POST(SQLModel, table=True):
         nullable=False,
         server_default=text("now()"),
     ))
+    userid:int=Field(foreign_key="users.id",ondelete="CASCADE",nullable=False)
+    user: "USER" = Relationship(back_populates="posts")
 
 class USER(SQLModel,table=True):
     __tablename__:str="users"
@@ -26,3 +28,4 @@ class USER(SQLModel,table=True):
         nullable=False,
         server_default=text("now()"),
     ))
+    posts: list["POST"] = Relationship(back_populates="user")

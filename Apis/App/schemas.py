@@ -10,16 +10,22 @@ class PostBase(BaseModel):
 class create_post(PostBase):
     pass
 
+class UserResponse(BaseModel):
+    Email:EmailStr
+    id:int
+
+
 class PostResponse(PostBase):
+    userid:int
     created_at:datetime
+    user: UserResponse
+
 
 class UserCreate(BaseModel):
     Email:EmailStr
     password:str
 
-class UserResponse(BaseModel):
-    Email:EmailStr
-    id:int
+
 
 class loginuser(BaseModel):
     Email:EmailStr

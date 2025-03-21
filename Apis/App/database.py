@@ -4,6 +4,8 @@ from typing import Annotated
 from fastapi import Depends
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from .config import settings
+from functools import lru_cache
 
 #database
 # while True:
@@ -17,7 +19,7 @@ from psycopg2.extras import RealDictCursor
 #         time.sleep(2)
 #         print(e)
 
-sql_url = "postgresql://postgres:postgres@localhost/fastapi"
+sql_url = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
 
 engine = create_engine(sql_url, echo=True)
 

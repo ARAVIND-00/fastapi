@@ -29,3 +29,8 @@ class USER(SQLModel,table=True):
         server_default=text("now()"),
     ))
     posts: list["POST"] = Relationship(back_populates="user")
+
+class VOTE(SQLModel,table=True):
+    __tablename__:str="votes"
+    user_id:int=Field(foreign_key="users.id",ondelete=CASCADE,nullable=False,primary_key=True)
+    post_id:int=Field(foreign_key="posts.id",ondelete=CASCADE,nullable=False,primary_key=True)

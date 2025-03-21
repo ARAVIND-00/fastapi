@@ -32,5 +32,5 @@ class USER(SQLModel,table=True):
 
 class VOTE(SQLModel,table=True):
     __tablename__:str="votes"
-    user_id:int=Field(foreign_key="users.id",ondelete=CASCADE,nullable=False,primary_key=True)
-    post_id:int=Field(foreign_key="posts.id",ondelete=CASCADE,nullable=False,primary_key=True)
+    user_id:int=Field(foreign_key="users.id",ondelete="CASCADE",nullable=False,primary_key=True)
+    post_id:int=Field(foreign_key="posts.id",ondelete="CASCADE",nullable=False,primary_key=True)

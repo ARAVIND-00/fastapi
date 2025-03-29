@@ -1,0 +1,9 @@
+alembic init alembic
+alembic revision -m "create post table"
+alembic current
+alembic upgrade dc2b7f40e366
+alembic heads
+alembic upgrade heads
+alembic downgrade -1
+alembic history
+alembic revision --autogenerate -m "commetn"

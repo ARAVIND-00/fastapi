@@ -1,4 +1,6 @@
+from dataclasses import field
 from datetime import datetime
+from enum import unique
 from typing import Optional
 from sqlmodel import TIMESTAMP, Field, SQLModel,Column,text,Relationship
 from pydantic import EmailStr
@@ -29,6 +31,7 @@ class USER(SQLModel,table=True):
         server_default=text("now()"),
     ))
     posts: list["POST"] = Relationship(back_populates="user")
+    
 
 class VOTE(SQLModel,table=True):
     __tablename__:str="votes"

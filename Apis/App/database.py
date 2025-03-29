@@ -7,6 +7,7 @@ from psycopg2.extras import RealDictCursor
 from .config import settings
 from functools import lru_cache
 
+
 #database
 # while True:
 #     try:
@@ -20,7 +21,6 @@ from functools import lru_cache
 #         print(e)
 
 sql_url = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
-
 engine = create_engine(sql_url, echo=True)
 
 

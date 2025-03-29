@@ -17,7 +17,7 @@ def Createuser(user:schemas.UserCreate,db:SessionDep):
         db.refresh(New_user)
         return New_user
      except Exception as e:
-          raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="user already exists")
+          raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=f"{e}")
      
 @router.get("/{user_id}",response_model=schemas.UserResponse)
 def getuser(user_id:int,db:SessionDep):

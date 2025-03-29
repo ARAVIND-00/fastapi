@@ -24,6 +24,11 @@ class UserCreate(BaseModel):
     Email:EmailStr
     password:str
 
+class postresponse_vote(BaseModel):
+    POST:PostResponse
+    votes:int
+
+
 
 
 class loginuser(BaseModel):

@@ -1,0 +1,2 @@
+re create database with out docker run --rm apis alembic head
+user bearer token generate
